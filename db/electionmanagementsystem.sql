@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 19, 2022 at 08:00 AM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- Generation Time: Jul 19, 2022 at 07:45 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -60,17 +60,27 @@ CREATE TABLE `candidates` (
   `lastname` varchar(30) NOT NULL,
   `photo` varchar(150) NOT NULL,
   `platform` text NOT NULL,
-  `party_id` int(11) NOT NULL
+  `party_id` int(11) NOT NULL,
+  `department` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `candidates`
 --
 
-INSERT INTO `candidates` (`id`, `student_id`, `position_id`, `voter_id`, `firstname`, `lastname`, `photo`, `platform`, `party_id`) VALUES
-(19, 1808560, 11, '146', 'Klyde Loiu', 'Olitoquit', '1650601072815.jpg', 'Libreng Pabahay para sa mga taga Urban Poor. 50% housing\r\n', 6),
-(86, 1748264, 11, '96', 'Jan Ryan', 'Relunia', '', '', 8),
-(87, 0, 8, '187', 'Kobie', 'werrr', '', 'asdasdasd', 6);
+INSERT INTO `candidates` (`id`, `student_id`, `position_id`, `voter_id`, `firstname`, `lastname`, `photo`, `platform`, `party_id`, `department`) VALUES
+(98, 1808569, 12, 'KwNB5GF2sxIOdqS', 'Ma. Theresa', 'Masapol', '', '123 test', 6, ''),
+(99, 1706560, 13, '8pjREFb1v4Y39cW', 'Klyde Louise', 'Olitoquit', '', 'test', 6, ''),
+(100, 1234557, 11, 'zsegQYH26rdq4bG', 'Kobie', 'Olitoquit', '', '', 8, ''),
+(101, 1138343, 8, 'XMm5N2cUbqCLVQG', 'KZ', 'Tandingan', '', '', 6, ''),
+(102, 1145367, 8, '7Kisr5enFNxoOd2', 'Daniel', 'Padilla', '', '', 7, ''),
+(103, 1235576, 9, 'G46afRjCB1UFlHW', 'Maris', 'Racal', '', '', 6, ''),
+(104, 1265353, 9, 'y1GzRAqvKsStcoJ', 'Cardo', 'Dalisay', '', '', 7, ''),
+(105, 7177267, 11, 'WYs3M5VNJx7jL6c', 'Mark', 'Babasa', '', '', 9, ''),
+(106, 1234224, 11, 'zZu4FxDCgVGMKvA', 'Xena', 'Cruz', '', '', 6, ''),
+(107, 1193884, 11, '89cIxbFqs4yErRv', 'Donnalyn ', 'Bartolome', '', '', 6, ''),
+(108, 1684955, 10, 'KqW56UAcp8bszkd', 'Lea', 'Cielo', '', '', 6, ''),
+(109, 0, 12, 'nNecI89Yl7uTPvk', '', '', '', 'asdasdasd', 6, '');
 
 -- --------------------------------------------------------
 
@@ -90,7 +100,7 @@ CREATE TABLE `election` (
 --
 
 INSERT INTO `election` (`election_id`, `election_name`, `startDate`, `endDate`) VALUES
-(7, '2022 Election SSG', '2022-06-20', '2022-06-30');
+(6, '2022 USG ELECTION', '2022-06-19', '2022-07-16');
 
 -- --------------------------------------------------------
 
@@ -113,7 +123,7 @@ INSERT INTO `partylist` (`id`, `partyname`, `tagline`, `priority`) VALUES
 (6, 'BUGKOS', 'Education for all', 1),
 (7, 'LIKSI', 'Kabataan ang pagasa ng bayan', 1),
 (8, 'AKO UNC', 'All for one, one for all', 2),
-(10, '1 RIDER', 'Seshhh', 3);
+(9, 'INDEPENDENT', 'N/A', 3);
 
 -- --------------------------------------------------------
 
@@ -135,9 +145,10 @@ CREATE TABLE `positions` (
 INSERT INTO `positions` (`id`, `description`, `max_vote`, `priority`) VALUES
 (8, 'Governor', 1, 1),
 (9, 'Vice Governor', 1, 2),
-(10, 'Councilor', 2, 3),
-(11, 'Representative', 4, 4),
-(12, 'AUDITOR', 1, 5);
+(10, 'Councilor', 3, 3),
+(11, 'Representative', 2, 4),
+(12, 'President', 1, 5),
+(13, 'Vice President', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -166,6 +177,32 @@ INSERT INTO `staff` (`id`, `staff_id`, `password`, `firstname`, `lastname`, `pho
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(255) NOT NULL,
+  `student_id` int(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `code` int(55) NOT NULL,
+  `status` varchar(30) NOT NULL,
+  `password` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `student_id`, `email`, `code`, `status`, `password`) VALUES
+(35, 1808569, 'klydelouise.olitoquit@unc.edu.ph', 278852, 'notverified', '1234567'),
+(36, 1706560, 'kl.olitoquit123@gmail.com', 931299, 'verified', '1706560'),
+(37, 1312463, 'kathrynbernardo@gmail.com', 199301, 'notverified', '1312463'),
+(41, 1977252, 'andreaolmeda@gmail.com', 0, '', '1977252'),
+(46, 1422344, 'joemcarl.16@gmail.com', 0, '', '1422344');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `voters`
 --
 
@@ -173,13 +210,13 @@ CREATE TABLE `voters` (
   `id` int(11) NOT NULL,
   `voters_id` varchar(15) NOT NULL,
   `student_id` int(11) NOT NULL,
-  `password` varchar(60) NOT NULL,
   `firstname` varchar(30) NOT NULL,
   `lastname` varchar(30) NOT NULL,
   `middlename` varchar(30) NOT NULL,
   `suffix` varchar(2) NOT NULL,
   `year_level` int(5) NOT NULL,
   `department` varchar(50) NOT NULL,
+  `email` varchar(55) NOT NULL,
   `photo` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -187,14 +224,11 @@ CREATE TABLE `voters` (
 -- Dumping data for table `voters`
 --
 
-INSERT INTO `voters` (`id`, `voters_id`, `student_id`, `password`, `firstname`, `lastname`, `middlename`, `suffix`, `year_level`, `department`, `photo`) VALUES
-(96, 'erfght5yjr6yer', 1312463, '', 'Kathryn', 'Bernardo', '', '', 4, 'CN', ''),
-(126, '', 0, '$2y$10$qJRdNIWpaC2jw8u05WK9xeiTwVVgZyxrcz3e9PNttQsRZRoTKYP5K', 'Kobie', 'Olitoquit', '', '', 1, 'CJE', ''),
-(146, '', 1706560, '', 'Klyde Louise', 'Olitoquit', '', '', 3, 'CCS', ''),
-(181, '', 1808569, '', 'Ma. Theresa', 'Masapol', '', '', 4, 'CCS', ''),
-(187, '', 7145267, '', 'Angulo', 'Dexter', '', '', 2, 'CCS', ''),
-(188, '', 7177267, '', 'Babasa', 'Mark', '', '', 4, 'CCS', ''),
-(189, '', 7377267, '', 'Angbaba', 'Eunil', '', '', 3, 'CJE', '');
+INSERT INTO `voters` (`id`, `voters_id`, `student_id`, `firstname`, `lastname`, `middlename`, `suffix`, `year_level`, `department`, `email`, `photo`) VALUES
+(479, '', 1706560, 'Klyde Louise', 'Olitoquit', '', '', 3, 'CN', 'kl.olitoquit123@gmail.com', ''),
+(480, '', 1312463, 'Kathryn', 'Bernardo', '', '', 4, 'CCS', 'kathrynbernardo@gmail.com', ''),
+(484, '', 1977252, 'Andrea', 'Olmeda', '', '', 1, 'CEA', 'andreaolmeda@gmail.com', ''),
+(489, '', 1422344, 'Carl Joem', 'Masapol', '', '', 2, 'CBA', 'joemcarl.16@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -206,16 +240,17 @@ CREATE TABLE `votes` (
   `id` int(11) NOT NULL,
   `voters_id` int(11) NOT NULL,
   `candidate_id` int(11) NOT NULL,
-  `position_id` int(11) NOT NULL
+  `position_id` int(11) NOT NULL,
+  `department` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `votes`
 --
 
-INSERT INTO `votes` (`id`, `voters_id`, `candidate_id`, `position_id`) VALUES
-(1, 126, 19, 11),
-(2, 126, 86, 11);
+INSERT INTO `votes` (`id`, `voters_id`, `candidate_id`, `position_id`, `department`) VALUES
+(24, 0, 101, 8, ''),
+(25, 0, 100, 11, '');
 
 --
 -- Indexes for dumped tables
@@ -263,11 +298,20 @@ ALTER TABLE `staff`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `student_id` (`student_id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
 -- Indexes for table `voters`
 --
 ALTER TABLE `voters`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `student_id` (`student_id`);
+  ADD UNIQUE KEY `student_id` (`student_id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `votes`
@@ -289,25 +333,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `candidates`
 --
 ALTER TABLE `candidates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `election`
 --
 ALTER TABLE `election`
-  MODIFY `election_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `election_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `partylist`
 --
 ALTER TABLE `partylist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -316,16 +360,22 @@ ALTER TABLE `staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
 -- AUTO_INCREMENT for table `voters`
 --
 ALTER TABLE `voters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=490;
 
 --
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
