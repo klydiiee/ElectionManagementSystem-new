@@ -1,0 +1,91 @@
+
+            <div class="container">
+
+<form method="POST" action="voters.php" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>Upload Excel File</label>
+        <input type="file" name="file" class="form-control">
+      </div>
+      <div class="form-group">
+        <button type="submit" name="Submit" class="btn btn-success">Upload</button>
+      </div>
+    </form>
+</div>
+
+<?php
+
+
+require('library/php-excel-reader/excel_reader2.php');
+require('library/SpreadsheetReader.php');
+require('db_config.php');
+
+
+if(isset($_POST['Submit'])){
+
+
+  $mimes = ['application/vnd.ms-excel','text/xls','text/xlsx','application/vnd.oasis.opendocument.spreadsheet'];
+  if(in_array($_FILES["file"]["type"],$mimes)){
+
+
+    $uploadFilePath = 'uploads/'.basename($_FILES['file']['name']);
+    move_uploaded_file($_FILES['file']['tmp_name'], $uploadFilePath);
+
+
+    $Reader = new SpreadsheetReader($uploadFilePath);
+
+
+    $totalSheet = count($Reader->sheets());
+
+
+
+    $html="<table border='1'>";
+    $html.="<tr><th>Title</th><th>Description</th></tr>";
+
+
+    /* For Loop for all sheets */
+    for($i=0;$i<$totalSheet;$i++){
+
+
+      $Reader->ChangeSheet($i);
+
+
+      foreach ($Reader as $Row)
+      {
+        $html.="<tr>";
+        $student_id = isset($Row[0]) ? $Row[0] : '';
+        $lastname = isset($Row[1]) ? $Row[1] : '';
+        $firstname = isset($Row[2]) ? $Row[2] : '';
+        $year_level = isset($Row[3]) ? $Row[3] : '';
+        $department = isset($Row[4]) ? $Row[4] : '';
+        $email = isset($Row[5]) ? $Row[5] : '';
+
+        $html.="<td>".$student_id."</td>";
+        $html.="<td>".$lastname."</td>";
+        $html.="<td>".$firstname."</td>";
+        $html.="<td>".$year_level."</td>";
+        $html.="<td>".$department."</td>";
+        $html.="<td>".$email."</td>";
+        $html.="</tr>";
+
+
+        $query = "insert into voters(student_id,lastname,firstname,year_level,department,email) values('".$student_id."','".$lastname."','".$firstname."','".$year_level."','".$department."','".$email."')";
+
+
+        $mysqli->query($query);
+       }
+
+
+    }
+
+
+    $html.="</table>";
+
+
+  }else { 
+    die("<br/>Sorry, File type is not allowed. Only Excel file."); 
+  }
+
+
+}
+
+?>
